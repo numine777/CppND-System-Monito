@@ -22,7 +22,13 @@ class Process {
  private:
    int pid;
    float cpu;
-   float starttime;
+  enum pidjiff {
+  kutime_ = 0,
+  kstime_,
+  kcutime_,
+  kcstime_,
+  kstarttime_
+};
 };
 
 #endif
