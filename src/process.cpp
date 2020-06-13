@@ -21,11 +21,16 @@ int Process::Pid() { return pid; }
 
 // TODO: Return this process's CPU utilization
 float Process::CpuUtilization() { 
-    vector<long> data =LinuxParser::pidjiffys(this->pid);
+    vector<long> data = LinuxParser::pidjiffys(this->pid);
     long total_time = data[kutime_] + data[kstime_] + data[kcstime_] + data[kcutime_];
     long sec = LinuxParser::UpTime() - (data[kstarttime_]/sysconf(_SC_CLK_TCK)) ;
-    float cpu_usage = ((float)total_time /(float) sysconf(_SC_CLK_TCK))/(float)sec;
-    return cpu_usage; 
+    if (sec > 0){
+        float cpu_usage = ((float)total_time /(float) sysconf(_SC_CLK_TCK))/(float)sec;
+        return cpu_usage;
+    }
+    else {
+        return 0.0;
+    }
 }
 
 // TODO: Return the command that generated this process
